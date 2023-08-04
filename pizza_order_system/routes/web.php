@@ -14,9 +14,22 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('auth#dashboard');
+
+
+    // Admin
     // category
-    Route::prefix('categories')->group(function () {
+    Route::prefix('categories')->middleware('admin_auth')->group(function () {
         Route::get('list', [CategoryController::class, 'list'])->name('category#list');
+    });
+
+    // User
+    // home
+    Route::prefix('users')->middleware('user_auth')->group(function () {
+        Route::get('home', function () {
+            return view('user.home');
+        })->name('user#home');
     });
 });
 
