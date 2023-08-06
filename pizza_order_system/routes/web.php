@@ -22,6 +22,10 @@ Route::middleware([
     // category
     Route::prefix('categories')->middleware('admin_auth')->group(function () {
         Route::get('list', [CategoryController::class, 'list'])->name('category#list');
+        Route::get('create/page', [CategoryController::class, 'createPage'])->name('category#createPage');
+        Route::post('create', [CategoryController::class, 'create'])->name('category#create');
+        Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category#delete');
+        Route::post('list', [CategoryController::class, 'list'])->name('category#search');
     });
 
     // User
