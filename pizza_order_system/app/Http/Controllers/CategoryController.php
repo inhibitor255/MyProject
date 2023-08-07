@@ -15,7 +15,7 @@ class CategoryController extends Controller
             $searchData = request('searchData');
             $query->where('name', 'Like', '%' . $searchData . '%');
         })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(4);
         $categories->appends($request->all());
         return view('admin.category.list', compact('categories'));
@@ -36,6 +36,22 @@ class CategoryController extends Controller
         return redirect()->route('category#list')->with(["createMessage" => "Category Creation is successful."]);
     }
 
+    // direct category edit page
+    public function editPage($id)
+    {
+        $editData = Category::where('id', $id)->first();
+        return view('admin.category.edit', compact('editData'));
+    }
+
+    // edit category
+    public function edit(Request $request)
+    {
+        $this->categoryValidationCheck($request);
+        $data = $this->requestCategoryData($request);
+        Category::where('id', request()->id)->update($data);
+        return redirect()->route('category#list')->with(["updateMessage" => "Category Update is successful."]);
+    }
+
     // delete category
     public function delete($id)
     {
@@ -49,7 +65,7 @@ class CategoryController extends Controller
         Validator::make(
             $request->all(),
             [
-                'name' => 'required| unique:categories,name',
+                'name' => 'required|min:4|unique:categories,name, ' . request()->id,
             ],
             [
                 'name.required' => 'အမျိုးအစား အမည်ဖြည့်ရန်လိုအပ်ပါသည်။',

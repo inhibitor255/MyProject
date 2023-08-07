@@ -134,6 +134,15 @@
                             </div>
                         </div>
                     @endif
+                    @if (session('updateMessage'))
+                        <div class="update-noti col-4  offset-8">
+                            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                                {{ session('updateMessage') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                            </div>
+                        </div>
+                    @endif
                     @if (session('deleteMessage'))
                         <div class="delete-noti col-4  offset-8">
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -149,7 +158,8 @@
                         </div>
                         <div class="navbar bg-body-tertiary col-4 offset-5   ">
                             <div class="container-fluid">
-                                <form class="d-flex" role="search" action="{{ route('category#search') }}" method="POST">
+                                <form class="d-flex" role="search" action="{{ route('category#search') }}"
+                                    method="POST">
                                     @csrf
                                     <input class="form-control me-2" type="search" value="{{ request('searchData') }}"
                                         placeholder="Search" name="searchData">
@@ -173,7 +183,7 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Category Name</th>
-                                        <th>Created Date</th>
+                                        <th>updated Date</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -182,14 +192,12 @@
                                         <tr class="tr-shadow">
                                             <td>{{ $category->id }}</td>
                                             <td class=" col-6">{{ $category->name }}</td>
-                                            <td>{{ $category->created_at->diffForHumans() }}</td>
+                                            <td>{{ $category->updated_at->diffForHumans() }}</td>
                                             <td>
 
                                                 <div class="table-data-feature">
-                                                    <a href="" class="item">
-                                                        <i class="zmdi zmdi-eye"></i>
-                                                    </a>
-                                                    <a href="" class="item">
+                                                    <a href="{{ route('category#editPage', [$category->id]) }}"
+                                                        class="item">
                                                         <i class="zmdi zmdi-edit"></i>
                                                     </a>
                                                     <a href="{{ route('category#delete', [$category->id]) }}"
