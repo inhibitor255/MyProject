@@ -3,14 +3,6 @@
 @section('title', 'Login Page')
 
 @section('content')
-    @if (session('success'))
-        <div class="create-noti  ">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
     <div class="login-form">
         <form action="{{ route('login') }}" method="post">
             @csrf

@@ -15,6 +15,24 @@
                                 <h3 class="text-center title-2">Create Your New Password</h3>
                             </div>
                             <hr>
+                            @if (session('success'))
+                                <div class="create-noti col-8 offset-2 ">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="zmdi zmdi-check-circle"></i> {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endif
+                            @if (session('notMatch'))
+                                <div class="create-noti col-8 offset-2 ">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="zmdi zmdi-close-circle"></i> {{ session('notMatch') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endif
                             <form action="{{ route('admin#passwordChange') }}" method="post" novalidate="novalidate">
                                 @csrf
                                 <div class="form-group">
@@ -25,9 +43,7 @@
                                     @error('oldPassword')
                                         <span class="text-danger sm">{{ $message }}</span>
                                     @enderror
-                                    @if (session('notMatch'))
-                                        <span class="text-danger sm">{{ session('notMatch') }}</span>
-                                    @endif
+
                                 </div>
 
                                 <div class="form-group">

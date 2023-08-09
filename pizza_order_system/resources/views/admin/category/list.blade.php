@@ -3,7 +3,6 @@
 @section('title', 'Admin Category List Page')
 
 @section('content')
-
     <!-- MAIN CONTENT-->
     <div class="main-content">
         <div class="section__content section__content--p30">

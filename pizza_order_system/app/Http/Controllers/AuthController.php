@@ -31,36 +31,4 @@ class AuthController extends Controller
             return redirect()->route("user#home");
         }
     }
-
-    // direct password change page
-    public function passwordChangePage()
-    {
-        return view('admin.password.changePassword');
-    }
-
-    // password change
-    public   function passwordChange(Request $request)
-    {
-        $this->passwordValidationCheck($request);
-        $dbPassword = auth()->user()->password;
-        if (Hash::check(request('oldPassword'), $dbPassword)) {
-            User::where('id', auth()->user()->id)->update([
-                'password' => Hash::make(request()->newPassword),
-            ]);
-            // After successful password change
-            return redirect()->route('auth#loginPage')->with('success', 'Password changed successfully. Please login with new Password.');
-        }
-        return back()->with(['notMatch' => 'The Old Password did not Match. Try Again.']);
-    }
-
-    // Password Validation Check
-    private function passwordValidationCheck($request)
-    {
-
-        Validator::make($request->all(), [
-            'oldPassword' => 'required',
-            'newPassword' => 'required|min:6|confirmed',
-            'newPassword_confirmation' => 'required|min:6',
-        ], [])->validate();
-    }
 }

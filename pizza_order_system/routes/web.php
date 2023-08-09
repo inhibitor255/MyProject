@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
@@ -9,9 +10,7 @@ Route::redirect('/', 'loginPage');
 Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
 Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
 
-Route::middleware([
-    'auth:sanctum', config('jetstream.auth_session'), 'verified'
-])->group(function () {
+Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('auth#dashboard');
 
@@ -30,8 +29,12 @@ Route::middleware([
 
         // admin account
         Route::prefix('admin')->group(function () {
-            Route::get('/password/change/page', [AuthController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
-            Route::post('change/password', [AuthController::class, 'passwordChange'])->name('admin#passwordChange');
+            // password
+            Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
+            Route::post('change/password', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
+
+            // profile
+            Route::get('/account/detail', [AdminController::class, 'detail'])->name('admin#detail');
         });
     });
 
