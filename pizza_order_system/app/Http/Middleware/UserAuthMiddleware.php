@@ -16,7 +16,7 @@ class UserAuthMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->user()->role == 'admin') {
-            return abort(404);
+            return back();
         }
         return $next($request);
     }

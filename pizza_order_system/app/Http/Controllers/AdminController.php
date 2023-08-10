@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    // direct password change page
+    // direct Admin password change page
     public function passwordChangePage()
     {
         return view('admin.account.changePassword');
     }
 
-    // password change
+    // Admin password change
     public   function passwordChange(Request $request)
     {
         $this->passwordValidationCheck($request);
@@ -28,13 +28,19 @@ class AdminController extends Controller
         return back()->with(['notMatch' => 'The Old Password did not Match. Try Again.']);
     }
 
-    // direct account detail
+    // direct Admin account detail page
     public function detail()
     {
         return view('admin.account.detail');
     }
 
-    // Password Validation Check
+    // direct Admin account edit page
+    public function editPage()
+    {
+        return view('admin.account.edit');
+    }
+
+    // Admin Password Validation Check
     private function passwordValidationCheck($request)
     {
 

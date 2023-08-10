@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminAuthMiddleware
@@ -15,9 +16,18 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role == 'user') {
-            return abort(404);
-        }
+        if (!(empty(Auth::user()))) {
+            // if we go register page or login page
+            if (url()->current() == route('auth#loginPage') || url()->current() == route('auth#registerPage')) {
+                return back();
+            }
+
+            if (auth()->user()->role == 'user') {
+                return back();
+            };
+            return $next($request);
+        };
+
         return $next($request);
     }
 }

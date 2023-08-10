@@ -5,10 +5,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-// login, register
-Route::redirect('/', 'loginPage');
-Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
-Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
+Route::middleware(['admin_auth'])->group(function () {
+    // login, register
+    Route::redirect('/', 'loginPage');
+    Route::get('loginPage', [AuthController::class, 'loginPage'])->name('auth#loginPage');
+    Route::get('registerPage', [AuthController::class, 'registerPage'])->name('auth#registerPage');
+});
 
 Route::middleware(['auth'])->group(function () {
     // Dashboard
@@ -31,10 +33,11 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('admin')->group(function () {
             // password
             Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
-            Route::post('change/password', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
+            Route::post('/password/change', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
 
             // profile
             Route::get('/account/detail', [AdminController::class, 'detail'])->name('admin#detail');
+            Route::get('/account/edit/page', [AdminController::class, 'editPage'])->name('admin#editPage');
         });
     });
 

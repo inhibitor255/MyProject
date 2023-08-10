@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title', 'Password Change Page')
+@section('title', 'Account Detail Page')
 
 @section('content')
 
@@ -48,9 +48,11 @@
                                 </div>
                                 <div class="row ">
                                     <div class=" col-4 offset-2  mt-3">
-                                        <button class=" btn btn-dark btn-sm">
-                                            <i class="zmdi zmdi-edit"></i> Edit Profile
-                                        </button>
+                                        <a href="{{ route('admin#editPage') }}">
+                                            <button class=" btn btn-dark btn-sm">
+                                                <i class="zmdi zmdi-edit"></i> Edit Profile
+                                            </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
