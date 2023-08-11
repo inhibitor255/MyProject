@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -29,7 +30,7 @@ class AdminController extends Controller
     }
 
     // direct Admin account detail page
-    public function detail()
+    public function detailPage()
     {
         return view('admin.account.detail');
     }
@@ -38,6 +39,57 @@ class AdminController extends Controller
     public function editPage()
     {
         return view('admin.account.edit');
+    }
+
+    // Admin account update
+    public function update(Request $request)
+    {
+        $this->accountValidationCheck($request);
+        $data = $this->getUserData($request);
+
+        // for image
+        if ($request->hasFile('image')) {
+            $dbImage = auth()->user()->image;
+
+            if ($dbImage != null) {
+                Storage::delete('public/' . $dbImage);
+            }
+
+            $fileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public', $fileName);
+            $data['image'] = $fileName;
+        }
+
+
+        User::where('id', auth()->user()->id)->update($data);
+        return redirect()->route('admin#detailPage')->with('updateSuccess', 'Successfully Update');
+    }
+
+    // request user data
+    private function getUserData($request)
+    {
+        return [
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'phone' => $request['phone'],
+            'gender' => $request['gender'],
+            'address' => $request['address'],
+        ];
+    }
+
+    // Admin account Validation Check
+    private function accountValidationCheck($request)
+    {
+        Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'email' => 'required',
+                'phone' => 'required',
+                'gender' => 'required',
+                'address' => 'required',
+            ]
+        )->validate();
     }
 
     // Admin Password Validation Check

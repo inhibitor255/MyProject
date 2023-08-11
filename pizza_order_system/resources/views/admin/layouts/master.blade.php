@@ -128,7 +128,7 @@
                                         </div>
                                     @else
                                         <div class="image">
-                                            <img src="{{ asset('admin/images/icon/avatar-01.jpg') }}"
+                                            <img src="{{ asset('storage/' . auth()->user()->image) }}"
                                                 alt="John Doe" />
                                         </div>
                                     @endif
@@ -148,7 +148,7 @@
                                                 </div>
                                             @else
                                                 <div class="image">
-                                                    <img src="{{ asset('admin/images/icon/avatar-01.jpg') }}"
+                                                    <img src="{{ asset('storage/' . auth()->user()->image) }}"
                                                         alt="John Doe" />
                                                 </div>
                                             @endif
@@ -165,7 +165,7 @@
                                         </div>
                                         <div class="account-dropdown__body">
                                             <div class="account-dropdown__item">
-                                                <a href="{{ route('admin#detail') }}">
+                                                <a href="{{ route('admin#detailPage') }}">
                                                     <button>
                                                         <i class="zmdi zmdi-account"></i> Account
                                                     </button>

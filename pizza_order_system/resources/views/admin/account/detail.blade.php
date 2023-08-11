@@ -14,6 +14,15 @@
                             <div class="card-title">
                                 <h3 class="text-center title-2">Account Info <i class="zmdi zmdi-info"></i></h3>
                             </div>
+                            @if (session('updateSuccess'))
+                                <div class="create-noti col-8 offset-2 ">
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="zmdi zmdi-check-circle"></i> {{ session('updateSuccess') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                            @endif
                             <hr>
                             <div class="row">
                                 <div class="col-3 offset-2">
@@ -24,7 +33,7 @@
                                         </div>
                                     @else
                                         <div class="image">
-                                            <img src="{{ asset('admin/images/icon/avatar-01.jpg') }}" alt="John Doe" />
+                                            <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="John Doe" />
                                         </div>
                                     @endif
                                 </div>
@@ -37,6 +46,9 @@
                                     </h4>
                                     <h4 class=" my-3">
                                         <i class="zmdi zmdi-phone me-2"></i>{{ auth()->user()->phone }}
+                                    </h4>
+                                    <h4 class=" my-3">
+                                        <i class="zmdi zmdi-male-female me-2"></i>{{ auth()->user()->gender }}
                                     </h4>
                                     <h4 class=" my-3">
                                         <i class="zmdi zmdi-gps-dot me-2"></i>{{ auth()->user()->address }}

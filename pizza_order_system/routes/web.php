@@ -30,14 +30,15 @@ Route::middleware(['auth'])->group(function () {
         });
 
         // admin account
-        Route::prefix('admin')->group(function () {
+        Route::prefix('admins')->group(function () {
             // password
             Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
             Route::post('/password/change', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
 
             // profile
-            Route::get('/account/detail', [AdminController::class, 'detail'])->name('admin#detail');
+            Route::get('/account/detail/page', [AdminController::class, 'detailPage'])->name('admin#detailPage');
             Route::get('/account/edit/page', [AdminController::class, 'editPage'])->name('admin#editPage');
+            Route::post('/account/update', [AdminController::class, 'update'])->name('admin#update');
         });
     });
 
