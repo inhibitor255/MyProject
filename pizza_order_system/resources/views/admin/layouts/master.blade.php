@@ -53,17 +53,25 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="index.html">
-                                <i class="fas fa-tachometer-alt"></i>Home Page
+                            <a class="js-arrow" href="{{ route('category#list') }}">
+                                <button>
+                                    <i class="fas fa-tachometer-alt"></i>Home Page
+                                </button>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('category#list') }}">
-                                <i class="fas fa-chart-bar"></i>Category</a>
+                            <a href="{{ route('category#createPage') }}">
+                                <button>
+                                    <i class="fas fa-chart-bar"></i>Category
+                                </button>
+                            </a>
                         </li>
                         <li>
-                            <a href="customerList.html">
-                                <i class="fas fa-chart-bar"></i>Customers</a>
+                            <a href="{{ route('product#listPage') }}">
+                                <button>
+                                    <i class="zmdi zmdi-pizza"></i> Products
+                                </button>
+                            </a>
                         </li>
                     </ul>
                 </nav>

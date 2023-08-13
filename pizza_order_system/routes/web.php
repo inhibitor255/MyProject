@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['admin_auth'])->group(function () {
@@ -39,6 +40,13 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/account/detail/page', [AdminController::class, 'detailPage'])->name('admin#detailPage');
             Route::get('/account/edit/page', [AdminController::class, 'editPage'])->name('admin#editPage');
             Route::post('/account/update', [AdminController::class, 'update'])->name('admin#update');
+        });
+
+        // product
+        Route::prefix('products')->group(function () {
+            Route::get('list/page', [ProductController::class, 'list'])->name('product#listPage');
+            Route::get('create', [ProductController::class, 'createPage'])->name('product#createPage');
+            Route::post('create', [ProductController::class, 'create'])->name('product#create');
         });
     });
 

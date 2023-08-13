@@ -88,6 +88,7 @@ class AdminController extends Controller
                 'phone' => 'required',
                 'gender' => 'required',
                 'address' => 'required',
+                'image' => 'mimes:png,jpg,jpeg|file',
             ]
         )->validate();
     }
