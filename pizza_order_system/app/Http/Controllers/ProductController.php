@@ -6,13 +6,20 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Expr\FuncCall;
 
 class ProductController extends Controller
 {
-    // direct product list page
-    public function list()
+    // direct product list page with paginate and search data
+    public function list(Request $request)
     {
-        $pizzas = Product::latest('updated_at')->paginate(5);
+        $pizzas = Product::when(request('searchData'), function ($query) {
+            $searchData = request('searchData');
+            $query->where('name', 'Like', '%' . $searchData . '%');
+        })
+            ->latest('updated_at')
+            ->paginate(3);
+        $pizzas->appends($request->all());
         return view('admin.product.pizzaList', compact('pizzas'));
     }
 
@@ -22,6 +29,21 @@ class ProductController extends Controller
         $categories = Category::select('id', 'name')->get();
         return view('admin.product.create', compact('categories'));
     }
+
+    // direct product detail page
+    public function detailPage($id)
+    {
+        $detailData = Product::where('id', $id)->first();
+        return view('admin.product.detail', compact('detailData'));
+    }
+
+    // direct product edit page
+    public function editPage($id)
+    {
+        $editData = Product::where('id', $id)->first();
+        return view('admin.product.edit', compact('editData'));
+    }
+
 
     // create product
     public function create(Request $request)
@@ -35,6 +57,19 @@ class ProductController extends Controller
 
         Product::create($data);
         return redirect()->route('product#listPage')->with('createMessage', 'Created Successfully.');
+    }
+
+    // edit product
+    public function edit(Request $request)
+    {
+        dd($request);
+    }
+
+    // delete product
+    public function delete($id)
+    {
+        Product::where('id', $id)->delete();
+        return redirect()->route('product#listPage')->with('deleteMessage', 'Pizza was successfully deleted.');
     }
 
     // product validation check

@@ -47,6 +47,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('list/page', [ProductController::class, 'list'])->name('product#listPage');
             Route::get('create', [ProductController::class, 'createPage'])->name('product#createPage');
             Route::post('create', [ProductController::class, 'create'])->name('product#create');
+            Route::post('list/page', [ProductController::class, 'list'])->name('product#searchData');
+            Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product#delete');
+            Route::get('detail/page/{id}', [ProductController::class, 'detailPage'])->name('product#detailPage');
+            Route::get('edit/page/{id}', [ProductController::class, 'editPage'])->name('product#editPage');
+            Route::post('edit', [ProductController::class, 'edit'])->name('product#edit');
         });
     });
 
