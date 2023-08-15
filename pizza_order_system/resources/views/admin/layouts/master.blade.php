@@ -82,11 +82,14 @@
         <header class="header-desktop">
             <div class="section__content section__content--p30">
                 <div class="container-fluid">
-                    <div class="header-wrap">
-                        <span class="form-header">
+                    <div class="header-wrap row">
+                        <button class="btn col-1 fs-5 btn btn-dark" onclick=" history.back()">
+                            <i class="zmdi zmdi-long-arrow-left "></i>
+                        </button>
+                        <span class="form-header col-3 ">
                             <h4>Admin Dashboard Panel</h4>
                         </span>
-                        <div class="header-button">
+                        <div class="header-button col-3 offset-5">
                             <div class="noti-wrap">
                                 <div class="noti__item js-item-menu">
                                     <i class="zmdi zmdi-notifications"></i>

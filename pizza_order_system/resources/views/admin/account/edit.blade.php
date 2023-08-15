@@ -7,9 +7,6 @@
     <!-- MAIN CONTENT-->
     <div class="main-content">
         <div class="section__content section__content--p30">
-            <button class="btn btn-dark" onclick=" history.back()">
-                <i class="zmdi zmdi-arrow-left"></i>
-            </button>
             <div class="container-fluid">
                 <div class="col-lg-10 offset-1">
                     <div class="card">

@@ -117,7 +117,7 @@
                                                         class="item">
                                                         <i class="zmdi zmdi-eye"></i>
                                                     </a>
-                                                    <a href="" class="item">
+                                                    <a href="{{ route('product#editPage', [$pizza->id]) }}" class="item">
                                                         <i class="zmdi zmdi-edit"></i>
                                                     </a>
                                                     <a href="{{ route('product#delete', [$pizza->id]) }}" class="item">

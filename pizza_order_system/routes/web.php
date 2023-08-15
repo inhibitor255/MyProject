@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product#delete');
             Route::get('detail/page/{id}', [ProductController::class, 'detailPage'])->name('product#detailPage');
             Route::get('edit/page/{id}', [ProductController::class, 'editPage'])->name('product#editPage');
-            Route::post('edit', [ProductController::class, 'edit'])->name('product#edit');
+            Route::post('edit/', [ProductController::class, 'edit'])->name('product#edit');
         });
     });
 

@@ -7,9 +7,6 @@
     <!-- MAIN CONTENT-->
     <div class="main-content">
         <div class="section__content section__content--p30">
-            <button class="btn btn-dark" onclick=" history.back()">
-                <i class="zmdi zmdi-arrow-left"></i>
-            </button>
             <div class="container-fluid">
                 <div class="col-lg-10 offset-1">
                     <div class="card">
@@ -35,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div class="col-9">
-                                    <div class=" my-3 btn bg-danger text-white w-25 fs-5 d-block ">
+                                    <div class=" my-3 btn bg-danger text-white w-50 text-center fs-5 d-block ">
                                         {{ $detailData->name }}
                                     </div>
                                     <span class=" my-3 btn btn-dark">
@@ -62,15 +59,6 @@
                                     </div>
 
 
-                                </div>
-                                <div class="row ">
-                                    <div class=" col-4 offset-2  mt-3">
-                                        <a href="{{ route('product#editPage', [$detailData->id]) }}">
-                                            <button class=" btn btn-dark btn-sm">
-                                                <i class="fs-5 zmdi zmdi-edit"></i> Edit {{ $detailData->name }}
-                                            </button>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

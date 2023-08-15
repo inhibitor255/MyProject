@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use PhpParser\Node\Expr\FuncCall;
 
@@ -41,14 +42,15 @@ class ProductController extends Controller
     public function editPage($id)
     {
         $editData = Product::where('id', $id)->first();
-        return view('admin.product.edit', compact('editData'));
+        $categories = Category::get();
+        return view('admin.product.edit', compact('editData', 'categories'));
     }
 
 
     // create product
     public function create(Request $request)
     {
-        $this->productValidationCheck($request);
+        $this->productValidationCheck($request, "create");
         $data = $this->requestProductInfo($request);
 
         $fileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
@@ -62,7 +64,22 @@ class ProductController extends Controller
     // edit product
     public function edit(Request $request)
     {
-        dd($request);
+        $this->productValidationCheck($request, "edit");
+        $data = $this->requestProductInfo($request);
+
+        if ($request->hasFile('image')) {
+            $oldFileName = Product::where('id', request()->id)->first()->image;
+            if ($oldFileName != null) {
+                Storage::delete('public/' . $oldFileName);
+            }
+
+            $fileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public/', $fileName);
+            $data['image'] = $fileName;
+        }
+
+        Product::where('id', request()->id)->update($data);
+        return redirect()->route('product#listPage')->with('updateMessage', ' successfully Updated.');
     }
 
     // delete product
@@ -73,20 +90,17 @@ class ProductController extends Controller
     }
 
     // product validation check
-    private function productValidationCheck($request)
+    private function productValidationCheck($request, $condition)
     {
-        Validator::make(
-            $request->all(),
-            [
-                "name" => "required|min:5|unique:products,name",
-                "category" => "required",
-                "description" => "required|min:10",
-                "price" => "required",
-                "waitingTime" => "required",
-                "image" => "required|mimes:png,jpg,jpeg,webp|file",
-            ],
-            []
-        )->validate();
+        $validationRules = [
+            "name" => "required|min:5|unique:products,name, " . request()->id,
+            "category" => "required",
+            "description" => "required|min:10",
+            "price" => "required",
+            "waitingTime" => "required",
+        ];
+        $validationRules['image'] = $condition == 'create' ? "required|mimes:png,jpg,jpeg,webp|file" :  "mimes:png,jpg,jpeg,webp|file";
+        Validator::make($request->all(), $validationRules, [])->validate();
     }
 
     // request product info

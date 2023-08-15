@@ -56,7 +56,7 @@ class AdminController extends Controller
             }
 
             $fileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
-            $request->file('image')->storeAs('public', $fileName);
+            $request->file('image')->storeAs('public/', $fileName);
             $data['image'] = $fileName;
         }
 
