@@ -26,7 +26,7 @@ class AuthController extends Controller
     public function dashboard()
     {
         if (auth()->user()->role == 'admin') {
-            return redirect()->route('category#list');
+            return redirect()->route('admin#listPage');
         } else {
             return redirect()->route("user#home");
         }

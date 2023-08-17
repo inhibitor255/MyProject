@@ -32,14 +32,19 @@ Route::middleware(['auth'])->group(function () {
 
         // admin account
         Route::prefix('admins')->group(function () {
-            // password
-            Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
-            Route::post('/password/change', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
+            // admin list
+            Route::get('list/page', [AdminController::class, 'listPage'])->name('admin#listPage');
+            Route::post('list/page', [AdminController::class, 'listPage'])->name('admin#listPage');
+            Route::get('delete/{id}', [AdminController::class, 'delete'])->name('admin#delete');
 
             // profile
             Route::get('/account/detail/page', [AdminController::class, 'detailPage'])->name('admin#detailPage');
             Route::get('/account/edit/page', [AdminController::class, 'editPage'])->name('admin#editPage');
             Route::post('/account/update', [AdminController::class, 'update'])->name('admin#update');
+
+            // password
+            Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
+            Route::post('/password/change', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
         });
 
         // product

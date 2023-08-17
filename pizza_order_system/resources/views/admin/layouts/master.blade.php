@@ -53,14 +53,14 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
-                            <a class="js-arrow" href="{{ route('category#list') }}">
+                            <a class="js-arrow" href="{{ route('admin#listPage') }}">
                                 <button>
-                                    <i class="fas fa-tachometer-alt"></i>Home Page
+                                    <i class="fas fa-tachometer-alt"></i>Admin
                                 </button>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('category#createPage') }}">
+                            <a href="{{ route('category#list') }}">
                                 <button>
                                     <i class="fas fa-chart-bar"></i>Category
                                 </button>
@@ -134,9 +134,17 @@
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     @if (auth()->user()->image == null)
-                                        <div class="image">
-                                            <img src="{{ asset('image/default-user.jpg') }}" alt="John Doe" />
-                                        </div>
+                                        @if (auth()->user()->gender == 'male')
+                                            <div class="image">
+                                                <img src="{{ asset('image/default-user.jpg') }}" alt=""
+                                                    class=" img-thumbnail shadow-sm">
+                                            </div>
+                                        @else
+                                            <div class="image">
+                                                <img src="{{ asset('image/default-female-profile.avif') }}"
+                                                    alt="" class=" img-thumbnail shadow-sm">
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="image">
                                             <img src="{{ asset('storage/' . auth()->user()->image) }}"
@@ -153,10 +161,17 @@
                                     <div class="account-dropdown js-dropdown ">
                                         <div class="info clearfix">
                                             @if (auth()->user()->image == null)
-                                                <div class="image">
-                                                    <img src="{{ asset('image/default-user.jpg') }}"
-                                                        alt="John Doe" />
-                                                </div>
+                                                @if (auth()->user()->gender == 'male')
+                                                    <div class="image">
+                                                        <img src="{{ asset('image/default-user.jpg') }}"
+                                                            alt="" class=" img-thumbnail shadow-sm">
+                                                    </div>
+                                                @else
+                                                    <div class="image">
+                                                        <img src="{{ asset('image/default-female-profile.avif') }}"
+                                                            alt="" class=" img-thumbnail shadow-sm">
+                                                    </div>
+                                                @endif
                                             @else
                                                 <div class="image">
                                                     <img src="{{ asset('storage/' . auth()->user()->image) }}"
@@ -179,6 +194,15 @@
                                                 <a href="{{ route('admin#detailPage') }}">
                                                     <button>
                                                         <i class="zmdi zmdi-account"></i> Account
+                                                    </button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="account-dropdown__body">
+                                            <div class="account-dropdown__item">
+                                                <a href="{{ route('admin#listPage') }}">
+                                                    <button>
+                                                        <i class="zmdi zmdi-accounts-list"></i> Account List
                                                     </button>
                                                 </a>
                                             </div>

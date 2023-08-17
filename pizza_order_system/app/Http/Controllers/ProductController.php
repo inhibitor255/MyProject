@@ -27,7 +27,7 @@ class ProductController extends Controller
     // direct product create page
     public function createPage()
     {
-        $categories = Category::select('id', 'name')->get();
+        $categories = Category::all();
         return view('admin.product.create', compact('categories'));
     }
 

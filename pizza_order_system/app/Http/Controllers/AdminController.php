@@ -10,6 +10,32 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+    // direct admin list page
+    public function listPage(Request $request)
+    {
+
+        $admins = User::when(request('searchData'), function ($key) {
+            $key->where('role', 'admin')
+                ->where(function ($query) {
+                    $query->orWhere('name', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('email', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('phone', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('gender', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('address', 'like', '%' . request('searchData') . '%');
+                });
+        })
+            ->paginate(3);
+        $admins->appends(request()->all());
+        return view('admin.account.list', compact('admins'));
+    }
+
+    // delete admin account
+    public function delete($id)
+    {
+        User::where('id', $id)->delete();
+        return back()->with('deleteMessage', 'Successfully deleted.');
+    }
+
     // direct Admin password change page
     public function passwordChangePage()
     {

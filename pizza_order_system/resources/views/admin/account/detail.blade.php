@@ -27,10 +27,17 @@
                             <div class="row">
                                 <div class="col-3 offset-2">
                                     @if (auth()->user()->image == null)
-                                        <div class="image">
-                                            <img src="{{ asset('image/default-user.jpg') }}" alt="John Doe"
-                                                class=" img-thumbnail shadow-sm" />
-                                        </div>
+                                        @if (auth()->user()->gender == 'male')
+                                            <div class="image">
+                                                <img src="{{ asset('image/default-user.jpg') }}" alt=""
+                                                    class=" img-thumbnail shadow-sm">
+                                            </div>
+                                        @else
+                                            <div class="image">
+                                                <img src="{{ asset('image/default-female-profile.avif') }}" alt=""
+                                                    class=" img-thumbnail shadow-sm">
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="image">
                                             <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="John Doe" />

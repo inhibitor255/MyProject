@@ -45,7 +45,7 @@
                                         <i class="fs-5 zmdi zmdi-eye me-2"></i>{{ $detailData->view_count }}
                                     </span>
                                     <span class=" my-3 btn btn-dark">
-                                        <i class="zmdi zmdi-tag"></i> {{ $detailData->category_id }}
+                                        <i class="zmdi zmdi-tag"></i> {{ $detailData->category->name }}
                                     </span>
 
                                     <span class=" my-3 btn btn-dark">

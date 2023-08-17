@@ -22,14 +22,20 @@
                                 <div class="row">
                                     <div class="col-4 offset-1">
                                         @if (auth()->user()->image == null)
-                                            <div class="image">
-                                                <img src="{{ asset('image/default-user.jpg') }}" style="width: 300px"
-                                                    alt="User Picture" class=" img-thumbnail shadow-sm" />
-                                            </div>
+                                            @if (auth()->user()->gender == 'male')
+                                                <div class="image">
+                                                    <img src="{{ asset('image/default-user.jpg') }}" alt=""
+                                                        class=" img-thumbnail shadow-sm">
+                                                </div>
+                                            @else
+                                                <div class="image">
+                                                    <img src="{{ asset('image/default-female-profile.avif') }}"
+                                                        alt="" class=" img-thumbnail shadow-sm">
+                                                </div>
+                                            @endif
                                         @else
                                             <div class="image">
-                                                <img src="{{ asset('storage/' . auth()->user()->image) }}"
-                                                    style="width: 300px" alt="User Picture" />
+                                                <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="John Doe" />
                                             </div>
                                         @endif
 
