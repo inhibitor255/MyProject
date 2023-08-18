@@ -128,11 +128,15 @@
                                             <td>
                                                 @if (auth()->user()->id != $admin->id)
                                                     <div class="table-data-feature">
-                                                        <a href="{{ route('admin#delete', [$admin->id]) }}" class="item">
+                                                        <a href="{{ route('admin#changeRolePage', [$admin->id]) }}"
+                                                            class="item me-2">
+                                                            <i class="zmdi zmdi-edit "></i>
+                                                        </a>
+                                                        <a href="{{ route('admin#delete', [$admin->id]) }}"
+                                                            class="item me-2">
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </a>
                                                     </div>
-                                                @else
                                                 @endif
                                             </td>
                                         </tr>

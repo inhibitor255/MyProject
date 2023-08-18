@@ -24,17 +24,19 @@ class AdminController extends Controller
                         ->orWhere('address', 'like', '%' . request('searchData') . '%');
                 });
         })
+            ->where('role', 'admin')
             ->paginate(3);
         $admins->appends(request()->all());
         return view('admin.account.list', compact('admins'));
     }
 
-    // delete admin account
-    public function delete($id)
+    // direct Admin account change role page
+    public function changeRolePage($id)
     {
-        User::where('id', $id)->delete();
-        return back()->with('deleteMessage', 'Successfully deleted.');
+        $account = User::where('id', $id)->first();
+        return view('admin.account.changeRole', compact('account'));
     }
+
 
     // direct Admin password change page
     public function passwordChangePage()
@@ -42,18 +44,7 @@ class AdminController extends Controller
         return view('admin.account.changePassword');
     }
 
-    // Admin password change
-    public   function passwordChange(Request $request)
-    {
-        $this->passwordValidationCheck($request);
-        $dbPassword = auth()->user()->password;
-        if (Hash::check(request('oldPassword'), $dbPassword)) {
-            User::where('id', auth()->user()->id)->update(['password' => Hash::make(request()->newPassword),]);
-            // After successful password change
-            return back()->with('success', 'Password changed successfully.');
-        }
-        return back()->with(['notMatch' => 'The Old Password did not Match. Try Again.']);
-    }
+
 
     // direct Admin account detail page
     public function detailPage()
@@ -89,6 +80,34 @@ class AdminController extends Controller
 
         User::where('id', auth()->user()->id)->update($data);
         return redirect()->route('admin#detailPage')->with('updateSuccess', 'Successfully Update');
+    }
+
+    // Admin password change
+    public   function passwordChange(Request $request)
+    {
+        $this->passwordValidationCheck($request);
+        $dbPassword = auth()->user()->password;
+        if (Hash::check(request('oldPassword'), $dbPassword)) {
+            User::where('id', auth()->user()->id)->update(['password' => Hash::make(request()->newPassword),]);
+            // After successful password change
+            return back()->with('success', 'Password changed successfully.');
+        }
+        return back()->with(['notMatch' => 'The Old Password did not Match. Try Again.']);
+    }
+
+    // change role of other admin account
+    public function changeRole(Request $request, $id)
+    {
+        $data = ['role' => request()->role];
+        User::where('id', $id)->update($data);
+        return redirect()->route('admin#listPage')->with('updateMessage', 'Role was successfully changed.');
+    }
+
+    // delete admin account
+    public function delete($id)
+    {
+        User::where('id', $id)->delete();
+        return back()->with('deleteMessage', 'Successfully deleted.');
     }
 
     // request user data

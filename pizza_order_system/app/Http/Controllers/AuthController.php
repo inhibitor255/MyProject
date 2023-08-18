@@ -28,7 +28,7 @@ class AuthController extends Controller
         if (auth()->user()->role == 'admin') {
             return redirect()->route('admin#listPage');
         } else {
-            return redirect()->route("user#home");
+            return redirect()->route("user#homePage");
         }
     }
 }

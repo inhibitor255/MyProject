@@ -45,7 +45,7 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="{{ route('category#list') }}">
+                <a href="{{ route('admin#listPage') }}">
                     <img src="{{ asset('admin/images/icon/logo.png') }}" alt="Cool Admin" />
                 </a>
             </div>
@@ -89,8 +89,8 @@
                         <span class="form-header col-3 ">
                             <h4>Admin Dashboard Panel</h4>
                         </span>
-                        <div class="header-button col-3 offset-5">
-                            <div class="noti-wrap">
+                        <div class="header-button col-3 offset-5 row">
+                            {{-- <div class="noti-wrap">
                                 <div class="noti__item js-item-menu">
                                     <i class="zmdi zmdi-notifications"></i>
                                     <span class="quantity">3</span>
@@ -130,9 +130,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="account-wrap">
-                                <div class="account-item clearfix js-item-menu">
+                            </div> --}}
+                            <div class="account-wrap ">
+                                <div class="account-item clearfix js-item-menu offset-6">
                                     @if (auth()->user()->image == null)
                                         @if (auth()->user()->gender == 'male')
                                             <div class="image">
@@ -152,19 +152,15 @@
                                         </div>
                                     @endif
                                     <div class="content">
-                                        <a class="js-acc-btn" href="#">
-                                            <button>
-                                                {{ auth()->user()->name }}
-                                            </button>
-                                        </a>
+                                        {{ auth()->user()->name }} <i class="zmdi zmdi-chevron-down"></i>
                                     </div>
                                     <div class="account-dropdown js-dropdown ">
                                         <div class="info clearfix">
                                             @if (auth()->user()->image == null)
                                                 @if (auth()->user()->gender == 'male')
                                                     <div class="image">
-                                                        <img src="{{ asset('image/default-user.jpg') }}"
-                                                            alt="" class=" img-thumbnail shadow-sm">
+                                                        <img src="{{ asset('image/default-user.jpg') }}" alt=""
+                                                            class=" img-thumbnail shadow-sm">
                                                     </div>
                                                 @else
                                                     <div class="image">

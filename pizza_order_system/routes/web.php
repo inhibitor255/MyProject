@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['admin_auth'])->group(function () {
@@ -19,23 +20,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Admin
     Route::middleware('admin_auth')->group(function () {
-        // category
-        Route::prefix('categories')->group(function () {
-            Route::get('list', [CategoryController::class, 'list'])->name('category#list');
-            Route::get('create/page', [CategoryController::class, 'createPage'])->name('category#createPage');
-            Route::post('create', [CategoryController::class, 'create'])->name('category#create');
-            Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category#delete');
-            Route::post('list', [CategoryController::class, 'list'])->name('category#search');
-            Route::get('editPage/{id}', [CategoryController::class, 'editPage'])->name('category#editPage');
-            Route::post('edit/', [CategoryController::class, 'edit'])->name('category#edit');
-        });
-
         // admin account
         Route::prefix('admins')->group(function () {
             // admin list
             Route::get('list/page', [AdminController::class, 'listPage'])->name('admin#listPage');
             Route::post('list/page', [AdminController::class, 'listPage'])->name('admin#listPage');
             Route::get('delete/{id}', [AdminController::class, 'delete'])->name('admin#delete');
+            Route::get('change/role/page/{id}', [AdminController::class, 'changeRolePage'])->name('admin#changeRolePage');
+            Route::post('change/role/{id}', [AdminController::class, 'changeRole'])->name('admin#changeRole');
 
             // profile
             Route::get('/account/detail/page', [AdminController::class, 'detailPage'])->name('admin#detailPage');
@@ -45,6 +37,17 @@ Route::middleware(['auth'])->group(function () {
             // password
             Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
             Route::post('/password/change', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
+        });
+
+        // category
+        Route::prefix('categories')->group(function () {
+            Route::get('list', [CategoryController::class, 'list'])->name('category#list');
+            Route::get('create/page', [CategoryController::class, 'createPage'])->name('category#createPage');
+            Route::post('create', [CategoryController::class, 'create'])->name('category#create');
+            Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category#delete');
+            Route::post('list', [CategoryController::class, 'list'])->name('category#search');
+            Route::get('editPage/{id}', [CategoryController::class, 'editPage'])->name('category#editPage');
+            Route::post('edit/', [CategoryController::class, 'edit'])->name('category#edit');
         });
 
         // product
@@ -63,10 +66,10 @@ Route::middleware(['auth'])->group(function () {
     // User
     // home
     Route::prefix('users')->middleware('user_auth')->group(function () {
-        Route::get('home', function () {
-            return view('user.home');
-        })->name('user#home');
+        // Route::get('home', function () {
+        //     return view('user.home');
+        // })->name('user#home');
+
+        Route::get('/home/page', [UserController::class, 'homePage'])->name('user#homePage');
     });
 });
-
-// User
