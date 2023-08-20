@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
+use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['admin_auth'])->group(function () {
@@ -64,12 +65,20 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // User
-    // home
     Route::prefix('users')->middleware('user_auth')->group(function () {
-        // Route::get('home', function () {
-        //     return view('user.home');
-        // })->name('user#home');
-
+        // home
         Route::get('/home/page', [UserController::class, 'homePage'])->name('user#homePage');
+
+        // profile
+        Route::prefix('profile')->group(function () {
+            Route::get('change/page', [UserController::class, 'profileChangePage'])->name('user#profileChangePage');
+            Route::post('change', [UserController::class, 'profileChange'])->name('user#profileChange');
+        });
+
+        // password
+        Route::prefix('password')->group(function () {
+            Route::get('change/page', [UserController::class, 'passwordChangePage'])->name('user#passwordChangePage');
+            Route::post('change', [UserController::class, 'passwordChange'])->name('user#passwordChange');
+        });
     });
 });

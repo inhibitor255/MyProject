@@ -1,10 +1,18 @@
-@extends('admin.layouts.master')
+@extends('user.layouts.master')
 
-@section('title', 'Account Edit Page')
+@section('title', 'Profile Page')
 
 @section('content')
-
     <!-- MAIN CONTENT-->
+    @if (session('updateSuccess'))
+        <div class="create-noti col-8 offset-2 ">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="fa-solid fa-circle-info text-warning  "></i> {{ session('updateSuccess') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+    <hr>
     <div class="main-content">
         <div class="section__content section__content--p30">
             <div class="container-fluid">
@@ -17,7 +25,7 @@
                                 </h3>
                             </div>
                             <hr>
-                            <form action="{{ route('admin#update') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('user#profileChange') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-4 offset-1">

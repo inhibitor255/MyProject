@@ -40,7 +40,8 @@
                                         @endif
                                     @else
                                         <div class="image">
-                                            <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="John Doe" />
+                                            <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="John Doe"
+                                                class=" img-thumbnail shadow-sm" />
                                         </div>
                                     @endif
                                 </div>

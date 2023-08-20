@@ -1,23 +1,6 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <h1>This is user home page.</h1>
-    Role - {{ auth()->user()->role }}
-
-
-</body>
-
-</html> --}}
-
 @extends('user.layouts.master')
+
+@section('title', 'User Home Page')
 
 @section('content')
     <!-- Shop Start -->
@@ -25,11 +8,13 @@
         <div class="row px-xl-5">
             <!-- Shop Sidebar Start -->
             <div class="col-lg-3 col-md-4">
-                <!-- Price Start -->
-                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter
-                        by price</span></h5>
+
                 <div class="bg-light p-4 mb-30">
+                    <!-- Price Start -->
+                    <h5 class="section-title position-relative text-uppercase mb-3"><span class=" pr-3">Filter
+                            by price</span></h5>
                     <form>
+
                         <div class=" d-flex align-items-center justify-content-between mb-3 bg-dark text-white px-3 pt-2">
                             <label class="" for="price-all">Categories</label>
                             <span class="badge border font-weight-normal mb-2">{{ count($categories) }}</span>
@@ -38,7 +23,8 @@
                         @foreach ($categories as $category)
                             <div class=" d-flex align-items-center justify-content-between mb-3">
                                 <label class="" for="price-1">{{ $category->name }}</label>
-                                <span class="badge border font-weight-normal">150</span>
+                                <input type="checkbox" name="" id="">
+                                {{-- <span class="badge border font-weight-normal">150</span> --}}
                             </div>
                         @endforeach
 
@@ -68,12 +54,11 @@
                                     <button type="button" class="btn btn-sm btn-light dropdown-toggle"
                                         data-toggle="dropdown">Sorting</button>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Latest</a>
-                                        <a class="dropdown-item" href="#">Popularity</a>
-                                        <a class="dropdown-item" href="#">Best Rating</a>
+                                        <a class="dropdown-item" href="#">Ascending</a>
+                                        <a class="dropdown-item" href="#">Descending</a>
                                     </div>
                                 </div>
-                                <div class="btn-group ml-2">
+                                {{-- <div class="btn-group ml-2">
                                     <button type="button" class="btn btn-sm btn-light dropdown-toggle"
                                         data-toggle="dropdown">Showing</button>
                                     <div class="dropdown-menu dropdown-menu-right">
@@ -81,7 +66,7 @@
                                         <a class="dropdown-item" href="#">20</a>
                                         <a class="dropdown-item" href="#">30</a>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -107,11 +92,11 @@
                                         <h6 class="text-muted ml-2"><del>25000</del></h6>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-center mb-1">
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
-                                        <small class="fa fa-star text-primary mr-1"></small>
+                                        <small class="fa fa-star text-warning mr-1"></small>
+                                        <small class="fa fa-star text-warning mr-1"></small>
+                                        <small class="fa fa-star text-warning mr-1"></small>
+                                        <small class="fa fa-star text-warning mr-1"></small>
+                                        <small class="fa fa-star text-warning mr-1"></small>
                                     </div>
                                 </div>
                             </div>
