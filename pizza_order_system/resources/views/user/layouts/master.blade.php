@@ -52,7 +52,7 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="{{ route('user#homePage') }}" class="nav-item nav-link active">Home</a>
+                            <a href="{{ route('user#homePage') }}" class="nav-item nav-link">Home</a>
                             <a href="cart.html" class="nav-item nav-link">My Cart</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
@@ -212,6 +212,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
     </script>
+
+    {{-- JQuery cdn link --}}
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+        crossorigin="anonymous"></script>
 </body>
+@yield('scriptSource')
 
 </html>

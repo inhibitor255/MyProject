@@ -33,6 +33,14 @@ class UserController extends Controller
         return view('user.account.changePassword');
     }
 
+    // direct Pizza detail page
+    public function pizzaDetailPage($id)
+    {
+        $pizza = Product::where('id', $id)->first();
+        $pizzas = Product::get();
+        return view('user.main.detail', compact('pizza', 'pizzas'));
+    }
+
     // change User profile
     public function profileChange(Request $request)
     {
@@ -67,6 +75,14 @@ class UserController extends Controller
             return back()->with('success', 'Password changed successfully.');
         }
         return back()->with(['notMatch' => 'The Old Password did not Match. Try Again.']);
+    }
+
+    // filter pizza
+    public function filter($id)
+    {
+        $pizzas = Product::where('category_id', $id)->orderBy('updated_at', 'desc')->get();
+        $categories = Category::get();
+        return view('user.main.home', compact('pizzas', 'categories'));
     }
 
     // request user data
