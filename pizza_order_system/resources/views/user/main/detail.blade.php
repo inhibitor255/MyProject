@@ -17,6 +17,9 @@
                 </div>
             </div>
 
+            <input type="hidden" name="userId" value="{{ auth()->user()->id }}" id="userId">
+            <input type="hidden" name="productId" value="{{ $pizza->id }}" id="productId">
+
             <div class="col-lg-7 h-auto mb-30">
                 <div class="h-100 bg-light p-30">
                     <h3>{{ $pizza->name }}</h3>
@@ -42,15 +45,16 @@
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
-                            <input type="text" class="form-control bg-dark text-white border-0 text-center"
-                                value="1">
+                            <input type="text" id="orderCount"
+                                class="form-control bg-dark text-white border-0 text-center rounded-sm" value="1">
                             <div class="input-group-btn">
                                 <button class="btn btn-warning btn-plus">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </div>
-                        <button class="btn btn-warning px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        <button type="button" class="btn btn-warning px-3" id="addCartBtn"><i
+                                class="fa fa-shopping-cart mr-1"></i> Add To
                             Cart</button>
                     </div>
                 </div>
@@ -102,4 +106,31 @@
         </div>
     </div>
     <!-- Products End -->
+@endsection
+
+@section('scriptSource')
+    <script>
+        $(document).ready(function() {
+
+            $("#addCartBtn").click(function() {
+                let source = {
+                    "userId": $('#userId').val(),
+                    "productId": $('#productId').val(),
+                    "qty": $('#orderCount').val(),
+                };
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:8000/users/ajax/add/cart",
+                    data: source,
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            // Redirect to a new URL
+                            window.location.href = "http://127.0.0.1:8000/users/home/page";
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

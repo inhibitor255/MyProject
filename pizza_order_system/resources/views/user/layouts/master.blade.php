@@ -53,7 +53,7 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{ route('user#homePage') }}" class="nav-item nav-link">Home</a>
-                            <a href="cart.html" class="nav-item nav-link">My Cart</a>
+                            <a href="{{ route('cart#page') }}" class="nav-item nav-link">My Cart</a>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -97,7 +97,7 @@
         </div>
     </div>
     <!-- Navbar End -->
-    <div class=" row">
+    <div class=" row mb-3">
         <button class="btn btn-dark col-1 offset-1" onclick=" history.back()">
             <i class="fa-solid fa-left-long"></i>
         </button>
