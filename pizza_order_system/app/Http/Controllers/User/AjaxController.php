@@ -31,6 +31,13 @@ class AjaxController extends Controller
         ], 200);
     }
 
+    // return cart list
+    public function showCartList(Request $request)
+    {
+        Cart::where('user_id', auth()->user()->id)->get();
+        return response();
+    }
+
     // get order data
     private function getOrderData(Request $request)
     {

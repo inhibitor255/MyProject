@@ -54,8 +54,15 @@
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div>
-                                <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
-                                <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
+                                <a class="" href="{{ route('cart#page') }}">
+                                    <button class="btn btn-dark position-relative">
+                                        Cart <i class="fa fa-shopping-cart"></i>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ count(auth()->user()->carts) }}
+                                            <span class="visually-hidden">unread messages</span>
+                                    </button>
+                                </a>
                             </div>
                             <div class="ml-2">
                                 <div class="btn-group">
@@ -93,8 +100,6 @@
                                             <img class="img-fluid w-100" src="{{ asset('storage/' . $pizza->image) }}"
                                                 alt="">
                                             <div class="product-action">
-                                                <a class="btn btn-outline-dark btn-square"
-                                                    href="{{ route('cart#page') }}"><i class="fa fa-shopping-cart"></i></a>
                                                 <a class="btn btn-outline-dark btn-square"
                                                     href="{{ route('user#pizzaDetailPage', [$pizza->id]) }}"><i
                                                         class="fa fa-search"></i></a>
