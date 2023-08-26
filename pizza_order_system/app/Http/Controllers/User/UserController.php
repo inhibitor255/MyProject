@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Mockery\Undefined;
 
 class UserController extends Controller
 {
@@ -80,7 +81,11 @@ class UserController extends Controller
     // filter pizza
     public function filter($id)
     {
+
         $pizzas = Product::where('category_id', $id)->orderBy('updated_at', 'desc')->get();
+        if (!$pizzas->all()) {
+            return back();
+        }
         $categories = Category::get();
         return view('user.main.home', compact('pizzas', 'categories'));
     }

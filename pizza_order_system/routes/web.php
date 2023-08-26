@@ -98,7 +98,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('ajax')->group(function () {
             Route::get('pizza/list', [AjaxController::class, 'pizzaList'])->name('ajax#pizzaList');
             Route::get('add/cart', [AjaxController::class, 'addCart'])->name('ajax#addCart');
-            Route::get('show/cart/list', [AjaxController::class, 'showCartList'])->name('ajax#showCartList');
+            Route::get('order', [AjaxController::class, 'order'])->name('ajax#order');
         });
     });
 });

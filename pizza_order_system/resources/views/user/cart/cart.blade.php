@@ -7,9 +7,10 @@
     <div class="container-fluid">
         <div class="row px-xl-5">
             <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-light table-borderless table-hover text-center mb-0">
+                <table class="table table-light table-borderless table-hover text-center mb-0" id="dataTable">
                     <thead class="thead-dark">
                         <tr>
+                            <th>Image</th>
                             <th>Products</th>
                             <th>Price</th>
                             <th>Quantity</th>
@@ -19,9 +20,15 @@
                     </thead>
                     <tbody class="align-middle">
                         @foreach ($carts as $cart)
-                            <tr>
+                            <tr id="tableRow">
+                                <td>
+                                    <img src="{{ asset('storage/' . $cart->product->image) }}"
+                                        class=" img-thumbnail shadow-sm" alt="" style="width: 100px;">
+                                </td>
                                 <td class="align-middle text-warning bold">
                                     <b class="bold">{{ $cart->product->name }}</b>
+                                    <input type="hidden" name="" id="productId" value="{{ $cart->product->id }}">
+                                    <input type="hidden" name="" id="userId" value="{{ auth()->user()->id }}">
                                 </td>
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -53,9 +60,9 @@
                                         disabled>
                                 </td>
                                 <td class="align-middle">
-                                    <a href="">
-                                        <button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button>
-                                    </a>
+                                    <button class="btn btn-sm btn-danger btnRemove" id="btnRemove"><i
+                                            class="fa fa-times"></i>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -70,7 +77,7 @@
                     <div class="border-bottom pb-2">
                         <div class="d-flex justify-content-between mb-3">
                             <h6>Subtotal</h6>
-                            <h6>{{ $cartTotalPrice }}</h6>
+                            <h6 id="subTotalPrice">{{ $cartTotalPrice }} Kyats</h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Delievery</h6>
@@ -80,9 +87,10 @@
                     <div class="pt-2">
                         <div class="d-flex justify-content-between mt-2">
                             <h5>Total</h5>
-                            <h5>{{ $cartTotalPrice + 2000 }}</h5>
+                            <h5 id="finalTotalPrice">{{ $cartTotalPrice + 2000 }} Kyats</h5>
                         </div>
-                        <button class="btn btn-block btn-warning font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                        <button class="btn btn-block btn-warning font-weight-bold my-3 py-3" id="checkoutBtn">Proceed To
+                            Checkout</button>
                     </div>
                 </div>
             </div>
@@ -95,25 +103,78 @@
     <script>
         $(document).ready(function() {
 
-            $('.fa-minus').click(function() {
+            // when  - button click
+            $('.btn-minus').click(function() {
                 let parentNode = $(this).parents("tr");
                 let price = parseInt(parentNode.find('#productPrice').val());
-                let qty = parseInt(parentNode.find('#productQty').val()) - 1;
+                let qty = parseInt(parentNode.find('#productQty').val());
 
                 let productTotal = price * qty;
-                console.log(productTotal, price, qty);
-
                 parentNode.find('#productTotal').val(productTotal);
+
+                summaryCalculation();
             });
 
-            $('.fa-plus').click(function() {
+            // when + button click
+            $('.btn-plus').click(function() {
                 let parentNode = $(this).parents("tr");
                 let price = parseInt(parentNode.find('#productPrice').val());
-                let qty = parseInt(parentNode.find('#productQty').val()) + 1;
+                let qty = parseInt(parentNode.find('#productQty').val());
 
                 let productTotal = price * qty;
-                console.log(productTotal, price, qty);
                 parentNode.find('#productTotal').val(productTotal);
+
+                summaryCalculation();
+            });
+
+            // when delete button click
+            $('.btnRemove').click(function() {
+                let parentNode = $(this).parents("tr");
+                parentNode.remove();
+
+                summaryCalculation();
+            });
+
+            // calculate Cart summary final total price
+            function summaryCalculation() {
+                let subTotal = 0;
+                let Delievery = 2000;
+                $('#dataTable tr#tableRow').each(function(index, element) {
+                    subTotal += Number($(element).find('#productTotal').val());
+
+                });
+                $('#subTotalPrice').html(`${subTotal} Kyats`);
+                $('#finalTotalPrice').html(`${subTotal + Delievery} Kyats`);
+            };
+
+            $('#checkoutBtn').click(function(e) {
+                e.preventDefault();
+                const timestamp = new Date().getTime();
+                const randomNum = Math.floor(Math.random() * 10000);
+                const uniqueID = `id_${timestamp}_${randomNum}`;
+                let orderList = [];
+                $('#dataTable tr#tableRow').each(function(index, element) {
+                    orderList.push({
+                        'user_id': $(element).find('#userId').val(),
+                        'product_id': $(element).find('#productId').val(),
+                        'qty': $(element).find('#productQty').val(),
+                        'total': $(element).find('#productTotal').val(),
+                        'order_code': uniqueID,
+                    })
+                });
+
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:8000/users/ajax/order",
+                    data: Object.assign({}, orderList),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.status == 'true') {
+                            // Redirect to a new URL
+                            window.location.href = "http://127.0.0.1:8000/users/home/page";
+                        }
+                    }
+                });
             });
 
         });

@@ -6,6 +6,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderList;
 
 class AjaxController extends Controller
 {
@@ -31,11 +33,21 @@ class AjaxController extends Controller
         ], 200);
     }
 
-    // return cart list
-    public function showCartList(Request $request)
+    // order
+    public function order(Request $request)
     {
-        Cart::where('user_id', auth()->user()->id)->get();
-        return response();
+        $total = 2000;
+        foreach ($request->all() as $item) {
+            $data = OrderList::create($item);
+            $total += $data->total;
+        }
+        Cart::where('user_id', auth()->user()->id)->delete();
+        Order::create([
+            'user_id' => auth()->user()->id,
+            'order_code' => $data->order_code,
+            'total_price' => $total,
+        ]);
+        return response()->json(['message' => 'Order success', 'status' => 'true'], 200);
     }
 
     // get order data
