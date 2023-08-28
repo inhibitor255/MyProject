@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -40,6 +41,13 @@ class UserController extends Controller
         $pizza = Product::where('id', $id)->first();
         $pizzas = Product::get();
         return view('user.main.detail', compact('pizza', 'pizzas'));
+    }
+
+    // direct history page
+    public function historyPage()
+    {
+        $orders = Order::where('user_id', auth()->user()->id)->latest()->paginate(6);
+        return view('user.main.history', compact('orders'));
     }
 
     // change User profile

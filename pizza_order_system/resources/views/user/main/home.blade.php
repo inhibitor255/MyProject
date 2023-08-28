@@ -63,6 +63,15 @@
                                             <span class="visually-hidden">unread messages</span>
                                     </button>
                                 </a>
+                                <a class="" href="{{ route('user#historyPage') }}" class=" ms-4">
+                                    <button class="btn btn-dark position-relative">
+                                        History <i class="fa-solid fa-clock-rotate-left"></i>
+                                        <span
+                                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ count(auth()->user()->orders) }}
+                                            <span class="visually-hidden">unread messages</span>
+                                    </button>
+                                </a>
                             </div>
                             <div class="ml-2">
                                 <div class="btn-group">
@@ -97,8 +106,8 @@
                                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                     <div class="product-item bg-light mb-4" id="myForm">
                                         <div class="product-img position-relative overflow-hidden">
-                                            <img class="img-fluid w-100" src="{{ asset('storage/' . $pizza->image) }}"
-                                                alt="">
+                                            <img class="img-fluid img-thumbnail w-100"
+                                                src="{{ asset('storage/' . $pizza->image) }}" alt="">
                                             <div class="product-action">
                                                 <a class="btn btn-outline-dark btn-square"
                                                     href="{{ route('user#pizzaDetailPage', [$pizza->id]) }}"><i

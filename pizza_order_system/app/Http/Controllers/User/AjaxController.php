@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderList;
+use Illuminate\Support\Facades\Redis;
 
 class AjaxController extends Controller
 {
@@ -48,6 +49,17 @@ class AjaxController extends Controller
             'total_price' => $total,
         ]);
         return response()->json(['message' => 'Order success', 'status' => 'true'], 200);
+    }
+
+    // clear cart total data from database
+    public function clearCart(Request $request)
+    {
+        Cart::where('user_id', auth()->user()->id)->delete();
+    }
+
+    public function clearCartOnce(Request $request)
+    {
+        Cart::where('id', $request->id)->delete();
     }
 
     // get order data

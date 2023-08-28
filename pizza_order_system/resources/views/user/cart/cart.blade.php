@@ -29,6 +29,7 @@
                                     <b class="bold">{{ $cart->product->name }}</b>
                                     <input type="hidden" name="" id="productId" value="{{ $cart->product->id }}">
                                     <input type="hidden" name="" id="userId" value="{{ auth()->user()->id }}">
+                                    <input type="hidden" id="cardId" value="{{ $cart->id }}">
                                 </td>
                                 <td class="align-middle">
                                     <div class="input-group quantity mx-auto" style="width: 100px;">
@@ -91,6 +92,8 @@
                         </div>
                         <button class="btn btn-block btn-warning font-weight-bold my-3 py-3" id="checkoutBtn">Proceed To
                             Checkout</button>
+                        <button class="btn btn-block btn-danger font-weight-bold my-3 py-3" id="clearCartBtn">Clear
+                            Cart</button>
                     </div>
                 </div>
             </div>
@@ -127,12 +130,25 @@
                 summaryCalculation();
             });
 
-            // when delete button click
+            // when click delete button for one row in table
             $('.btnRemove').click(function() {
                 let parentNode = $(this).parents("tr");
                 parentNode.remove();
-
                 summaryCalculation();
+                let cartId = parentNode.find('#cardId').val();
+
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:8000/users/ajax/clear/cart/once",
+                    data: {
+                        "id": cartId
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+
             });
 
             // calculate Cart summary final total price
@@ -147,6 +163,7 @@
                 $('#finalTotalPrice').html(`${subTotal + Delievery} Kyats`);
             };
 
+            // check out current prices
             $('#checkoutBtn').click(function(e) {
                 e.preventDefault();
                 const timestamp = new Date().getTime();
@@ -175,6 +192,21 @@
                         }
                     }
                 });
+            });
+
+            // clear entire cart list in database
+            $("#clearCartBtn").click(function(e) {
+                e.preventDefault();
+                $('#dataTable tbody tr').remove();
+                $('#subTotalPrice').html('0 Kyats');
+                $('#finalTotalPrice').html('2000 Kyats');
+
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:8000/users/ajax/clear/cart",
+                    dataType: "json",
+                });
+
             });
 
         });
