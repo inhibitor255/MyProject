@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
 use App\Models\Product;
@@ -41,29 +42,35 @@ Route::middleware(['auth'])->group(function () {
             // password
             Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
             Route::post('/password/change', [AdminController::class, 'passwordChange'])->name('admin#passwordChange');
-        });
 
-        // category
-        Route::prefix('categories')->group(function () {
-            Route::get('list', [CategoryController::class, 'list'])->name('category#list');
-            Route::get('create/page', [CategoryController::class, 'createPage'])->name('category#createPage');
-            Route::post('create', [CategoryController::class, 'create'])->name('category#create');
-            Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category#delete');
-            Route::post('list', [CategoryController::class, 'list'])->name('category#search');
-            Route::get('editPage/{id}', [CategoryController::class, 'editPage'])->name('category#editPage');
-            Route::post('edit/', [CategoryController::class, 'edit'])->name('category#edit');
-        });
+            // category
+            Route::prefix('categories')->group(function () {
+                Route::get('list', [CategoryController::class, 'list'])->name('category#list');
+                Route::get('create/page', [CategoryController::class, 'createPage'])->name('category#createPage');
+                Route::post('create', [CategoryController::class, 'create'])->name('category#create');
+                Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('category#delete');
+                Route::post('list', [CategoryController::class, 'list'])->name('category#search');
+                Route::get('editPage/{id}', [CategoryController::class, 'editPage'])->name('category#editPage');
+                Route::post('edit/', [CategoryController::class, 'edit'])->name('category#edit');
+            });
 
-        // product
-        Route::prefix('products')->group(function () {
-            Route::get('list/page', [ProductController::class, 'list'])->name('product#listPage');
-            Route::get('create', [ProductController::class, 'createPage'])->name('product#createPage');
-            Route::post('create', [ProductController::class, 'create'])->name('product#create');
-            Route::post('list/page', [ProductController::class, 'list'])->name('product#searchData');
-            Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product#delete');
-            Route::get('detail/page/{id}', [ProductController::class, 'detailPage'])->name('product#detailPage');
-            Route::get('edit/page/{id}', [ProductController::class, 'editPage'])->name('product#editPage');
-            Route::post('edit/', [ProductController::class, 'edit'])->name('product#edit');
+            // product
+            Route::prefix('products')->group(function () {
+                Route::get('list/page', [ProductController::class, 'list'])->name('product#listPage');
+                Route::get('create', [ProductController::class, 'createPage'])->name('product#createPage');
+                Route::post('create', [ProductController::class, 'create'])->name('product#create');
+                Route::post('list/page', [ProductController::class, 'list'])->name('product#searchData');
+                Route::get('delete/{id}', [ProductController::class, 'delete'])->name('product#delete');
+                Route::get('detail/page/{id}', [ProductController::class, 'detailPage'])->name('product#detailPage');
+                Route::get('edit/page/{id}', [ProductController::class, 'editPage'])->name('product#editPage');
+                Route::post('edit/', [ProductController::class, 'edit'])->name('product#edit');
+            });
+
+            // order
+            Route::prefix('order')->group(function () {
+                Route::get('list/page', [OrderController::class, 'listPage'])->name('order#listPage');
+                Route::get('ajax/status', [OrderController::class, 'ajaxStatus'])->name('order#ajaxStatus');
+            });
         });
     });
 
@@ -96,6 +103,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('page/', [CartController::class, 'cartPage'])->name('cart#page');
         });
 
+        // ajax
         Route::prefix('ajax')->group(function () {
             Route::get('pizza/list', [AjaxController::class, 'pizzaList'])->name('ajax#pizzaList');
             Route::get('add/cart', [AjaxController::class, 'addCart'])->name('ajax#addCart');
