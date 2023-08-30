@@ -13,7 +13,7 @@ class AdminController extends Controller
     // direct admin list page
     public function listPage(Request $request)
     {
-
+        // for admins
         $admins = User::when(request('searchData'), function ($key) {
             $key->where('role', 'admin')
                 ->where(function ($query) {
@@ -25,9 +25,22 @@ class AdminController extends Controller
                 });
         })
             ->where('role', 'admin')
-            ->paginate(3);
-        $admins->appends(request()->all());
-        return view('admin.account.list', compact('admins'));
+            ->get();
+
+        // for customers
+        $users = User::when(request('searchData'), function ($key) {
+            $key->where('role', 'user')
+                ->where(function ($query) {
+                    $query->orWhere('name', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('email', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('phone', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('gender', 'like', '%' . request('searchData') . '%')
+                        ->orWhere('address', 'like', '%' . request('searchData') . '%');
+                });
+        })
+            ->where('role', 'user')
+            ->get();
+        return view('admin.account.list', compact('admins', 'users'));
     }
 
     // direct Admin account change role page
@@ -108,6 +121,14 @@ class AdminController extends Controller
     {
         User::where('id', $id)->delete();
         return back()->with('deleteMessage', 'Successfully deleted.');
+    }
+
+    public function ajaxChangeRole(Request $request)
+    {
+        User::where('id', $request->id)->update([
+            'role' => $request->role
+        ]);
+        return response()->json(['success change role'], 200);
     }
 
     // request user data

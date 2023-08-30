@@ -55,7 +55,7 @@
                         <li class="active has-sub">
                             <a class="js-arrow" href="{{ route('admin#listPage') }}">
                                 <button>
-                                    <i class="fas fa-tachometer-alt"></i>Admin
+                                    <i class="fas fa-tachometer-alt"></i>Admins & Customers
                                 </button>
                             </a>
                         </li>

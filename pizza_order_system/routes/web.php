@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('delete/{id}', [AdminController::class, 'delete'])->name('admin#delete');
             Route::get('change/role/page/{id}', [AdminController::class, 'changeRolePage'])->name('admin#changeRolePage');
             Route::post('change/role/{id}', [AdminController::class, 'changeRole'])->name('admin#changeRole');
+            Route::get('ajax/role/change', [AdminController::class, 'ajaxChangeRole'])->name('admin#ajaxChangeRole');
 
             // profile
             Route::get('/account/detail/page', [AdminController::class, 'detailPage'])->name('admin#detailPage');
@@ -70,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
             Route::prefix('order')->group(function () {
                 Route::get('list/page', [OrderController::class, 'listPage'])->name('order#listPage');
                 Route::get('ajax/status', [OrderController::class, 'ajaxStatus'])->name('order#ajaxStatus');
+                Route::get('ajax/status/change', [OrderController::class, 'ajaxStatusChange'])->name('order#ajaxStatusChange');
             });
         });
     });

@@ -85,6 +85,7 @@
                                     <tbody id="data-list">
                                         @foreach ($orders as $order)
                                             <tr class="tr-shadow">
+
                                                 <td class=" col-1">
                                                     {{ $order->user->id }}
                                                 </td>
@@ -98,11 +99,12 @@
                                                     {{ $order->total_price }} Kyats
                                                 </td>
                                                 <td class=" col-3">
-                                                    {{ $order->created_at->diffForHumans() }} at
-                                                    {{ $order->created_at->format('g:i a') }}
+                                                    {{ $order->created_at->format('Y-F-j') }}
                                                 </td>
-                                                <td>
-                                                    <select name="status" id="" class=" form-select shadow-sm">
+                                                <td class="orderTd">
+                                                    <input type="hidden" value="{{ $order->id }}" class="orderId">
+                                                    <select name="status" id=""
+                                                        class=" form-select shadow-sm subStatus">
                                                         <option value="0"
                                                             @if ($order->status == 0) selected @endif>
                                                             Pending</option>
@@ -151,13 +153,20 @@
                     },
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
                         let list = ``;
                         for (let i = 0; i < response.length; i++) {
                             const order = response[i];
+                            let date = new Date(order.created_at);
+                            let monthNumber = date.getMonth() + 1;
+                            const monthNames = [
+                                "January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November",
+                                "December"
+                            ];
                             list += `
 
                                             <tr class="tr-shadow">
+
                                                 <td class=" col-1">
                                                    ${order.user_id}
                                                 </td>
@@ -171,10 +180,11 @@
                                                     ${order.total_price} Kyats
                                                 </td>
                                                 <td class=" col-3">
-                                                    ${order.created_at}
+                                                    ${date.getFullYear()}-${monthNames[monthNumber]}-${date.getDate()}
                                                 </td>
-                                                <td>
-                                                    <select name="status" id="" class=" form-select shadow-sm">
+                                                <td class="orderTd">
+                                                    <input type="hidden" value="${order.id}" class="orderId">
+                                                    <select name="status" id="" class="form-select shadow-sm subStatus">
                                                         <option value="0" ${ order.status == 0 ? 'selected':''}>Pending</option>
                                                         <option value="1" ${ order.status == 1 ? 'selected':''}>Accept</option>
                                                         <option value="2" ${ order.status == 2 ? 'selected':''}>Reject</option>
@@ -189,6 +199,26 @@
                 });
             });
 
+            $('.subStatus').change(function(e) {
+                e.preventDefault();
+                let parentNode = $(this).parents(".orderTd");
+                let orderId = parentNode.find('.orderId').val();
+                let subStatus = parentNode.find('.subStatus').val();
+
+                $.ajax({
+                    type: "get",
+                    url: "http://127.0.0.1:8000/admins/order/ajax/status/change",
+                    data: {
+                        "id": orderId,
+                        "status": subStatus,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        // Redirect to a new URL
+                        window.location.href = "http://127.0.0.1:8000/admins/order/list/page";
+                    }
+                });
+            });
         });
     </script>
 @endsection
