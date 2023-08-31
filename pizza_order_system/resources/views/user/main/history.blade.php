@@ -35,7 +35,7 @@
                                         <span class=" text-success"><i class="fa-regular fa-circle-check"></i>
                                             Confirm</span>
                                     @elseif($order->status == 2)
-                                        <span class=" text-success"><i class="fa-regular fa-circle-xmark"></i> Reject</span>
+                                        <span class=" text-danger"><i class="fa-regular fa-circle-xmark"></i> Reject</span>
                                     @endif
                                 </td>
                             </tr>

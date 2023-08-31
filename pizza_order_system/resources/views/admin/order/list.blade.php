@@ -16,57 +16,30 @@
                             </div>
                         </div>
                     </div>
-                    @if (session('createMessage'))
-                        <div class="create-noti col-4  offset-8">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ session('createMessage') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                    @endif
-                    @if (session('updateMessage'))
-                        <div class="update-noti col-4  offset-8">
-                            <div class="alert alert-info alert-dismissible fade show" role="alert">
-                                {{ session('updateMessage') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                    @endif
-                    @if (session('deleteMessage'))
-                        <div class="delete-noti col-4  offset-8">
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                {{ session('deleteMessage') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                    @endif
 
-                    <div class="row my-2">
-                        <div class=" offset-10 col-1 bg-white shadow-sm rounded text-center">
-                            <h3 class="my-2">
-                                <i class="zmdi zmdi-receipt mr-2"></i> {{ $orders->count() }}
-                            </h3>
+                    <form action="{{ route('order#changeStatus') }}" method="post">
+                        @csrf
+                        <div class="d-flex col-5 mb-2 input-group">
+                            <label class="input-group-text" for="inputGroupSelect02">
+                                <i class="zmdi zmdi-receipt mr-2"></i>{{ $orders->count() }}
+                            </label>
+                            <select name="status" id="orderStatus" class=" form-select shadow-sm ">
+                                <option value="">
+                                    All</option>
+                                <option value="0" {{ request('status') == '0' ? 'selected' : '' }}>
+                                    Pending</option>
+                                <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>
+                                    Accept</option>
+                                <option value="2" {{ request('status') == '2' ? 'selected' : '' }}>
+                                    Reject</option>
+                            </select>
+                            <div class=" input-group-append">
+                                <button class="btn btn-sm btn-dark input-group-text" type="submit">
+                                    <i class="zmdi zmdi-search me-2"></i>Search
+                                </button>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="d-flex col-5">
-                        <label for="" class="form-label col-4">
-                            Order Status
-                        </label>
-                        <select name="status" id="orderStatus" class=" form-select shadow-sm ">
-                            <option value="">
-                                All</option>
-                            <option value="0">
-                                Pending</option>
-                            <option value="1">
-                                Accept</option>
-                            <option value="2">
-                                Reject</option>
-                        </select>
-                    </div>
+                    </form>
 
                     <div class="">
                         @if ($orders->count() != 0)
@@ -87,13 +60,30 @@
                                             <tr class="tr-shadow">
 
                                                 <td class=" col-1">
-                                                    {{ $order->user->id }}
+                                                    <div class="mt-2">
+                                                        {{ $order->user->id }}
+                                                    </div>
                                                 </td>
                                                 <td class=" col-1">
                                                     {{ $order->user->name }}
                                                 </td>
                                                 <td class=" col-2">
-                                                    {{ $order->order_code }}
+                                                    @if ($order->status == '1')
+                                                        <a href="{{ route('order#listInfo', $order->order_code) }}"
+                                                            class=" text-decoration-none text-success text-bold">
+                                                            {{ $order->order_code }}
+                                                        </a>
+                                                    @elseif($order->status == '2')
+                                                        <a href="{{ route('order#listInfo', $order->order_code) }}"
+                                                            class=" text-decoration-none text-danger text-bold">
+                                                            {{ $order->order_code }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('order#listInfo', $order->order_code) }}"
+                                                            class=" text-decoration-none text-warning text-bold">
+                                                            {{ $order->order_code }}
+                                                        </a>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     {{ $order->total_price }} Kyats
@@ -142,62 +132,62 @@
     <script>
         $(document).ready(function() {
 
-            $('#orderStatus').change(function(e) {
-                let orderStatus = $("#orderStatus").val();
+            // $('#orderStatus').change(function(e) {
+            //     let orderStatus = $("#orderStatus").val();
 
-                $.ajax({
-                    type: "get",
-                    url: "http://127.0.0.1:8000/admins/order/ajax/status",
-                    data: {
-                        "status": orderStatus,
-                    },
-                    dataType: "json",
-                    success: function(response) {
-                        let list = ``;
-                        for (let i = 0; i < response.length; i++) {
-                            const order = response[i];
-                            let date = new Date(order.created_at);
-                            let monthNumber = date.getMonth() + 1;
-                            const monthNames = [
-                                "January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November",
-                                "December"
-                            ];
-                            list += `
+            //     $.ajax({
+            //         type: "get",
+            //         url: "http://127.0.0.1:8000/admins/order/ajax/status",
+            //         data: {
+            //             "status": orderStatus,
+            //         },
+            //         dataType: "json",
+            //         success: function(response) {
+            //             let list = ``;
+            //             for (let i = 0; i < response.length; i++) {
+            //                 const order = response[i];
+            //                 let date = new Date(order.created_at);
+            //                 let monthNumber = date.getMonth() + 1;
+            //                 const monthNames = [
+            //                     "January", "February", "March", "April", "May", "June",
+            //                     "July", "August", "September", "October", "November",
+            //                     "December"
+            //                 ];
+            //                 list += `
 
-                                            <tr class="tr-shadow">
+        //                                 <tr class="tr-shadow">
 
-                                                <td class=" col-1">
-                                                   ${order.user_id}
-                                                </td>
-                                                <td class=" col-1">
-                                                    ${order.user_name}
-                                                </td>
-                                                <td class=" col-2">
-                                                    ${order.order_code}
-                                                </td>
-                                                <td>
-                                                    ${order.total_price} Kyats
-                                                </td>
-                                                <td class=" col-3">
-                                                    ${date.getFullYear()}-${monthNames[monthNumber]}-${date.getDate()}
-                                                </td>
-                                                <td class="orderTd">
-                                                    <input type="hidden" value="${order.id}" class="orderId">
-                                                    <select name="status" id="" class="form-select shadow-sm subStatus">
-                                                        <option value="0" ${ order.status == 0 ? 'selected':''}>Pending</option>
-                                                        <option value="1" ${ order.status == 1 ? 'selected':''}>Accept</option>
-                                                        <option value="2" ${ order.status == 2 ? 'selected':''}>Reject</option>
-                                                    </select>
-                                                </td>
-                                            </tr>
+        //                                     <td class=" col-1">
+        //                                        ${order.user_id}
+        //                                     </td>
+        //                                     <td class=" col-1">
+        //                                         ${order.user_name}
+        //                                     </td>
+        //                                     <td class=" col-2">
+        //                                         ${order.order_code}
+        //                                     </td>
+        //                                     <td>
+        //                                         ${order.total_price} Kyats
+        //                                     </td>
+        //                                     <td class=" col-3">
+        //                                         ${date.getFullYear()}-${monthNames[monthNumber]}-${date.getDate()}
+        //                                     </td>
+        //                                     <td class="orderTd">
+        //                                         <input type="hidden" value="${order.id}" class="orderId">
+        //                                         <select name="status" id="" class="form-select shadow-sm subStatus">
+        //                                             <option value="0" ${ order.status == 0 ? 'selected':''}>Pending</option>
+        //                                             <option value="1" ${ order.status == 1 ? 'selected':''}>Accept</option>
+        //                                             <option value="2" ${ order.status == 2 ? 'selected':''}>Reject</option>
+        //                                         </select>
+        //                                     </td>
+        //                                 </tr>
 
-                                `;
-                        }
-                        $('#data-list').html(list);
-                    }
-                });
-            });
+        //                     `;
+            //             }
+            //             $('#data-list').html(list);
+            //         }
+            //     });
+            // });
 
             $('.subStatus').change(function(e) {
                 e.preventDefault();
@@ -214,8 +204,7 @@
                     },
                     dataType: "json",
                     success: function(response) {
-                        // Redirect to a new URL
-                        window.location.href = "http://127.0.0.1:8000/admins/order/list/page";
+                        // location.reload();
                     }
                 });
             });

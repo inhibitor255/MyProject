@@ -70,8 +70,9 @@ Route::middleware(['auth'])->group(function () {
             // order
             Route::prefix('order')->group(function () {
                 Route::get('list/page', [OrderController::class, 'listPage'])->name('order#listPage');
-                Route::get('ajax/status', [OrderController::class, 'ajaxStatus'])->name('order#ajaxStatus');
+                Route::post('change/status', [OrderController::class, 'changeStatus'])->name('order#changeStatus');
                 Route::get('ajax/status/change', [OrderController::class, 'ajaxStatusChange'])->name('order#ajaxStatusChange');
+                Route::get('list/info/{orderCode}', [OrderController::class, 'listInfo'])->name('order#listInfo');
             });
         });
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderList;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -15,7 +16,7 @@ class OrderController extends Controller
     }
 
     // status ajax
-    public function ajaxStatus(Request $request)
+    public function changeStatus(Request $request)
     {
         $orders = Order::select('orders.*', 'users.name as user_name')
             ->leftJoin('users', 'users.id', 'orders.user_id')
@@ -25,8 +26,7 @@ class OrderController extends Controller
         } else {
             $orders = $orders->where("status", $request->status)->get();
         }
-
-        return response()->json($orders, 200);
+        return view('admin.order.list', compact('orders'));
     }
 
     // sub status change
@@ -35,5 +35,13 @@ class OrderController extends Controller
         logger($request->all());
         Order::where('id', $request->id)->update(['status' => $request->status]);
         return response()->json('status change successfully', 200);
+    }
+
+    // order list info
+    public function listInfo($orderCode)
+    {
+        $orderLists = OrderList::where('order_code', $orderCode)->get();
+        $order = Order::where('order_code', $orderCode)->first();
+        return view('admin.order.orderList', compact('orderLists', 'order'));
     }
 }
