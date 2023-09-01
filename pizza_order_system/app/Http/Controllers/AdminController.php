@@ -25,8 +25,14 @@ class AdminController extends Controller
                 });
         })
             ->where('role', 'admin')
-            ->get();
+            ->paginate(3);
+        $admins->appends($request->all());
+        return view('admin.account.list', compact('admins'));
+    }
 
+    // direct to user list page
+    public function userListPage(Request $request)
+    {
         // for customers
         $users = User::when(request('searchData'), function ($key) {
             $key->where('role', 'user')
@@ -39,8 +45,9 @@ class AdminController extends Controller
                 });
         })
             ->where('role', 'user')
-            ->get();
-        return view('admin.account.list', compact('admins', 'users'));
+            ->paginate(3);
+        $users->appends($request->all());
+        return view('admin.user.list', compact('users'));
     }
 
     // direct Admin account change role page

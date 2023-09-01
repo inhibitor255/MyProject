@@ -55,7 +55,14 @@
                         <li class="active has-sub">
                             <a class="js-arrow" href="{{ route('admin#listPage') }}">
                                 <button>
-                                    <i class="fas fa-tachometer-alt"></i>Admins & Customers
+                                    <i class="zmdi zmdi-account-circle"></i>Admin
+                                </button>
+                            </a>
+                        </li>
+                        <li class="active has-sub">
+                            <a class="js-arrow" href="{{ route('admin#userListPage') }}">
+                                <button>
+                                    <i class="zmdi zmdi-account-o"></i>Customer
                                 </button>
                             </a>
                         </li>
