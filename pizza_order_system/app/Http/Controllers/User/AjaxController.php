@@ -57,9 +57,20 @@ class AjaxController extends Controller
         Cart::where('user_id', auth()->user()->id)->delete();
     }
 
+    // clear entire cart
     public function clearCartOnce(Request $request)
     {
         Cart::where('id', $request->id)->delete();
+    }
+
+    // want view increase with productId from view and direct to admin product list
+    public function increaseViewCount(Request $request)
+    {
+        $pastViewCount = Product::where('id', $request->productId)->first();
+        $addViewCount = $pastViewCount->view_count + 1;
+        Product::where('id', $request->productId)->update([
+            'view_count' => $addViewCount,
+        ]);
     }
 
     // get order data

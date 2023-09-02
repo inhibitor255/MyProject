@@ -139,7 +139,7 @@
 
                 $.ajax({
                     type: "get",
-                    url: "http://127.0.0.1:8000/users/ajax/clear/cart/once",
+                    url: "/users/ajax/clear/cart/once",
                     data: {
                         "id": cartId
                     },
@@ -182,7 +182,7 @@
 
                 $.ajax({
                     type: "get",
-                    url: "http://127.0.0.1:8000/users/ajax/order",
+                    url: "/users/ajax/order",
                     data: Object.assign({}, orderList),
                     dataType: "json",
                     success: function(response) {
@@ -203,7 +203,7 @@
 
                 $.ajax({
                     type: "get",
-                    url: "http://127.0.0.1:8000/users/ajax/clear/cart",
+                    url: "/users/ajax/clear/cart",
                     dataType: "json",
                 });
 

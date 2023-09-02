@@ -24,7 +24,7 @@
                 <div class="h-100 bg-light p-30">
                     <h3>{{ $pizza->name }}</h3>
                     <div class="d-flex mb-3">
-                        <small class="pt-1"><i class="fa-solid fa-eye"></i> {{ $pizza->view_count }}</small>
+                        <small class="pt-1"><i class="fa-solid fa-eye"></i> {{ $pizza->view_count + 1 }}</small>
                     </div>
                     <div class="d-flex mb-3">
                         <h5 class="pt-1">
@@ -96,7 +96,7 @@
                                     <small class="fa fa-star text-warning mr-1"></small>
                                     <small class="fa fa-star text-warning mr-1"></small>
                                     <small class="fa fa-star text-warning mr-1"></small>
-                                    <small><i class="fa-solid fa-eye"></i> {{ $pizza->view_count }}</small>
+                                    <small><i class="fa-solid fa-eye"></i> {{ $p->view_count + 1 }}</small>
                                 </div>
                             </div>
                         </div>
@@ -112,6 +112,17 @@
     <script>
         $(document).ready(function() {
 
+            // increase view count
+            $.ajax({
+                type: "get",
+                url: "/users/ajax/increase/view/count",
+                data: {
+                    "productId": $('#productId').val(),
+                },
+                dataType: "json",
+            });
+
+            // want product add number to the cart
             $("#addCartBtn").click(function() {
                 let source = {
                     "userId": $('#userId').val(),
@@ -120,7 +131,7 @@
                 };
                 $.ajax({
                     type: "get",
-                    url: "http://127.0.0.1:8000/users/ajax/add/cart",
+                    url: "/users/ajax/add/cart",
                     data: source,
                     dataType: "json",
                     success: function(response) {

@@ -197,7 +197,7 @@
 
                 $.ajax({
                     type: "get",
-                    url: "http://127.0.0.1:8000/admins/order/ajax/status/change",
+                    url: "/admins/order/ajax/status/change",
                     data: {
                         "id": orderId,
                         "status": subStatus,

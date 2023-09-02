@@ -24,7 +24,7 @@
                             <a href="{{ route('user#homePage') }}" class=" text-dark btn position-relative">
                                 All
                             </a>
-                            <span class="text-bg-secondary rounded p-2">Total Pizzas</span>
+                            <span class="text-bg-secondary rounded p-2">All Products</span>
                         </div>
                         <hr>
                         @foreach ($categories as $category)
@@ -156,7 +156,7 @@
                 if (sortingOptionValue == 'asc') {
                     $.ajax({
                         type: "get",
-                        url: "http://127.0.0.1:8000/users/ajax/pizza/list",
+                        url: "/users/ajax/pizza/list",
                         data: {
                             "status": "asc"
                         },
@@ -203,7 +203,7 @@
                 } else if (sortingOptionValue == 'desc') {
                     $.ajax({
                         type: "get",
-                        url: "http://127.0.0.1:8000/users/ajax/pizza/list",
+                        url: "/users/ajax/pizza/list",
                         data: {
                             "status": "desc"
                         },
