@@ -87,6 +87,14 @@
                                 </button>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('contact#listPage') }}">
+                                <button>
+                                    <i class="zmdi zmdi-email-open"></i> Contact
+                                </button>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
             </div>

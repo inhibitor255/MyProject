@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Order;
+use App\Models\OrderList;
+use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -103,7 +108,7 @@ class AdminController extends Controller
     }
 
     // Admin password change
-    public   function passwordChange(Request $request)
+    public function passwordChange(Request $request)
     {
         $this->passwordValidationCheck($request);
         $dbPassword = auth()->user()->password;
@@ -123,11 +128,47 @@ class AdminController extends Controller
         return redirect()->route('admin#listPage')->with('updateMessage', 'Role was successfully changed.');
     }
 
-    // delete admin account
+    // delete user account from entire Pos
     public function delete($id)
     {
+
+        Cart::where('user_id', $id)->delete();
+        Order::where('user_id', $id)->delete();
+        OrderList::where('user_id', $id)->delete();
+        Rating::where('user_id', $id)->delete();
         User::where('id', $id)->delete();
         return back()->with('deleteMessage', 'Successfully deleted.');
+    }
+
+    // edit user acc page from admin
+    public function userEditPage($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('admin.user.edit', compact('user'));
+    }
+
+    // edit user acc from admin
+    public function userEdit(Request $request)
+    {
+        $this->accountValidationCheck($request);
+        $data = $this->getUserData($request);
+
+        // for image
+        if ($request->hasFile('image')) {
+            $dbImage = request()->image;
+
+            if ($dbImage != null) {
+                Storage::delete('public/' . $dbImage);
+            }
+
+            $fileName = uniqid() . "_" . $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public/', $fileName);
+            $data['image'] = $fileName;
+        }
+
+
+        User::where('id', request()->id)->update($data);
+        return redirect()->route('admin#userListPage');
     }
 
     public function ajaxChangeRole(Request $request)

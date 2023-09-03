@@ -5,6 +5,7 @@ use App\Http\Controllers\User\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\User\UserController;
@@ -43,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
             // user
             Route::get('user/list/page', [AdminController::class, 'userListPage'])->name('admin#userListPage');
             Route::post('user/list/page', [AdminController::class, 'userListPage'])->name('admin#userListPage');
+            Route::get('user/edit/page/{id}', [AdminController::class, 'userEditPage'])->name('admin#userEditPage');
+            Route::post('user/edit', [AdminController::class, 'userEdit'])->name('admin#userEdit');
+
 
             // password
             Route::get('/password/change/page', [AdminController::class, 'passwordChangePage'])->name('admin#passwordChangePage');
@@ -78,6 +82,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('ajax/status/change', [OrderController::class, 'ajaxStatusChange'])->name('order#ajaxStatusChange');
                 Route::get('list/info/{orderCode}', [OrderController::class, 'listInfo'])->name('order#listInfo');
             });
+
+            // contact
+            Route::prefix('contact')->group(function () {
+                Route::get('list/page', [ContactController::class, 'listPage'])->name('contact#listPage');
+                Route::get('delete/{id}', [ContactController::class, 'delete'])->name('contact#delete');
+            });
         });
     });
 
@@ -108,6 +118,12 @@ Route::middleware(['auth'])->group(function () {
         // cart
         Route::prefix('cart/')->group(function () {
             Route::get('page/', [CartController::class, 'cartPage'])->name('cart#page');
+        });
+
+        // contact
+        Route::prefix('contact/')->group(function () {
+            Route::get('page/', [ContactController::class, 'page'])->name('contact#page');
+            Route::post('submit/form', [ContactController::class, 'submitForm'])->name('contact#submitForm');
         });
 
         // ajax

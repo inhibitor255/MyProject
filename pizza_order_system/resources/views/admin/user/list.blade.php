@@ -48,6 +48,7 @@
                                             <th>Phone</th>
                                             <th>Address</th>
                                             <th>Role</th>
+                                            <th>Auth</th>
                                         </tr>
                                     </thead>
                                     <tbody id="userTBody">
@@ -104,6 +105,20 @@
                                                                 Customer</option>
                                                         </select>
                                                     </div>
+                                                </td>
+                                                <td>
+                                                    @if (auth()->user()->id != $user->id)
+                                                        <div class="table-data-feature">
+                                                            <a href="{{ route('admin#userEditPage', [$user->id]) }}"
+                                                                class="item me-2">
+                                                                <i class="zmdi zmdi-edit "></i>
+                                                            </a>
+                                                            <a href="{{ route('admin#delete', [$user->id]) }}"
+                                                                class="item me-2">
+                                                                <i class="zmdi zmdi-delete"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

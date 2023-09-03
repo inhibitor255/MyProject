@@ -54,7 +54,7 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="{{ route('user#homePage') }}" class="nav-item nav-link">Home</a>
                             <a href="{{ route('cart#page') }}" class="nav-item nav-link">My Cart</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="{{ route('contact#page') }}" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                             <div class="dropdown d-inline me-5">
