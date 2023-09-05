@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
-class CategoryApiController extends Controller
+class ContactApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Category::all();
+        $data = Contact::get();
         return response()->json($data, 200);
     }
 
@@ -21,17 +21,18 @@ class CategoryApiController extends Controller
      */
     public function store(Request $request)
     {
-        $response = Category::create([
-            'name' => $request->name,
+        $data = Contact::create([
+            "name" => $request->name,
+            "email" => $request->email,
+            "message" => $request->message,
         ]);
-
-        return response()->json($response, 201);
+        return response()->json($data, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Category $category)
+    public function show(Contact $contact)
     {
         //
     }
@@ -39,7 +40,7 @@ class CategoryApiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, Contact $contact)
     {
         //
     }
@@ -47,10 +48,8 @@ class CategoryApiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
-        $category = Category::find($id);
-        $category->delete();
-        return $category;
+        //
     }
 }

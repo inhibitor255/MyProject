@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryApiController;
+use App\Http\Controllers\ContactApiController;
 use App\Http\Controllers\ProductApiController;
+use App\Http\Controllers\RouteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('/products', ProductApiController::class);
 Route::apiResource('/categories', CategoryApiController::class);
+Route::apiResource('/contacts', ContactApiController::class);
+
+Route::post('category/delete', [RouteController::class, 'deleteCategory']);
