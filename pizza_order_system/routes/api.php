@@ -26,4 +26,7 @@ Route::apiResource('/products', ProductApiController::class);
 Route::apiResource('/categories', CategoryApiController::class);
 Route::apiResource('/contacts', ContactApiController::class);
 
+// RouteController
 Route::post('category/delete', [RouteController::class, 'deleteCategory']);
+Route::post('category/details', [RouteController::class, 'showCategory']);
+Route::post('category/update', [RouteController::class, 'updateCategory']);
